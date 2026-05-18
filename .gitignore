@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Never commit these
+.claude.json
+settings.json
+*.env
+.env*
+
+# Deepwork runtime artifacts (project-specific)
+.deepwork/
+handoff.md
