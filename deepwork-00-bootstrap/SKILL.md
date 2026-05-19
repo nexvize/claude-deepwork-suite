@@ -1,6 +1,6 @@
 ---
 name: deepwork-00-bootstrap
-description: "**When: MUST — Run first for every new project. Sets up the project structure, tools, and foundation.** First entry point for any new project — even if the idea is still vague. Decides whether deepwork-01-discovery is the right next step, or whether a native brainstorm, spike, or reality check should come first. Creates foundational project documents (PROJECT.md, REQUIREMENTS.md, ROADMAP.md, STATE.md) natively — no external skills required. Use ALWAYS when: starting any new project, 'I have an idea', 'let's build X', 'neues Projekt', 'I want to make', 'let's start', '/deepwork', '/deepwork-00'. Even for rough, half-formed ideas — this skill decides what to do with them."
+description: "**When: MUST — Run first for every new project. Sets up project structure, project type, tools, and foundation.** Entry point for ALL new projects — coding, research, content writing, design, media, marketing, analysis, concept/strategy, education, automation, legal, finance. Detects project type, creates adaptive folder structure, and offers Co-Planning or Autopilot mode. Use ALWAYS when: starting any new project, 'I have an idea', 'let's build X', 'neues Projekt', 'let's start', '/deepwork', '/deepwork-00'. Even for rough, half-formed ideas — this skill decides what to do."
 allowed-tools:
   - Read
   - Write
@@ -11,14 +11,15 @@ allowed-tools:
   - Skill
 ---
 
-**Read first:**
+**Lies zuerst:**
 - `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap (zuerst lesen!)
+- `references/project-profiles.md` — Projekttypen + adaptive Ordnerstruktur
 - `references/tool-awareness.md` — Tool-Routing bei jedem ⚐
 - `references/user-profile.md` — default assumption: non-technical user
 
 # deepwork-00: Bootstrap
 
-**Part 1 of the deepwork suite.** This skill's job is simple: get the project to a standing start so deepwork-01 can do real discovery work.
+**Part 1 of the deepwork suite.** Bringt das Projekt zum Standing Start — mit der richtigen Struktur für den richtigen Projekttyp, damit deepwork-01 echte Discovery-Arbeit machen kann.
 
 ---
 
@@ -26,7 +27,7 @@ allowed-tools:
 
 **First: Check if this project already has deepwork structure.**
 
-Does `./handoff.md` exist in the current working directory?
+Does `./handoff.md` or `./.deepwork/planning/PROJECT.md` exist?
 
 **YES → Read it. Parse the `current_phase` field:**
 - `current_phase: 00-bootstrap` → Bootstrap was interrupted. Continue from Step 1 below.
@@ -39,7 +40,7 @@ Does `./handoff.md` exist in the current working directory?
   Stop here. Don't overwrite anything.
 - `verdict: NO-GO` → Inform user: project was previously abandoned with NO-GO verdict. Offer to restart or continue from discovery with adjusted scope.
 
-**YES, but `.deepwork/` directory is empty or missing foundation docs:** Continue bootstrap but skip any steps that are already done.
+**YES, but `.deepwork/` directory is empty or missing foundation docs:** Continue bootstrap but skip steps already done.
 
 **NO → Continue with Tool Inventory below.**
 
@@ -69,20 +70,19 @@ Write `.deepwork/tool-inventory.md`:
 - Memory/vector persistence: <yes/no — which tier(s)>
 - Autopilot loop: <yes/no>
 - Deep web research (exa/firecrawl): <yes/no>
+- Design (Figma MCP): <yes/no>
+- Media generation (higgsfield): <yes/no>
 ```
-
-This file is read by every subsequent deepwork skill to know what's available.
 
 ---
 
 ## Step 1 — Quick Triage ⚐
 
-Ask via `AskUserQuestion` — use as many questions as needed to understand the situation:
+Ask via `AskUserQuestion` — alle Rounds in einem Aufruf, dann auswerten:
 
 **User Profile Check ⚐** (read `references/user-profile.md` before interviewing):
-- Assume the user is non-technical. Adjust all questions and explanations accordingly.
-- Watch for questions that reveal knowledge gaps — note them in `.deepwork/decisions.md` as `kind:user-profile`.
-- If the user shows technical knowledge, note which areas — but stay vigilant for gaps in adjacent domains.
+- Assume the user is non-technical. Adjust all questions accordingly.
+- Watch for knowledge gaps — note in `.deepwork/decisions.md` as `kind:user-profile`.
 
 **Round 1:** What stage is this?
 - Rough idea / vague inspiration
@@ -93,10 +93,41 @@ Ask via `AskUserQuestion` — use as many questions as needed to understand the 
 - Any prior research, docs, or code?
 - Any constraints already decided?
 
-**Round 3:** What needs to happen today?
+**Round 1.5 — Projekttyp:** Welcher Typ ist dieses Projekt?
+
+```
+(1)  Coding / Software      — Code schreiben, debuggen, deployen
+(2)  Recherche              — Themen erforschen, Wissen zusammenführen
+(3)  Inhalte / Texte        — Artikel, Bücher, Skripte, Dokumentation
+(4)  Design / UX            — Wireframes, UI, DesignSystem, Figma
+(5)  Media                  — Bilder, Videos, kreative Assets
+(6)  Marketing              — Kampagnen, Copy, Strategie, Ads
+(7)  Analyse / Daten        — Reports, Dashboards, Datenauswertung
+(8)  Konzept / Strategie    — Ideen, Roadmaps, Pitches, Frameworks
+(9)  Education              — Kurse, Tutorials, Lernmaterial
+(10) Automation             — Workflows, Scripts, Integrationen
+(11) Legal                  — Verträge, Compliance, Legal Research
+(12) Finance                — Finanzmodelle, Prognosen, Reports
+
+Falls mehrere zutreffen: Haupt-Typ wählen + optionalen Zweit-Typ nennen.
+```
+
+Lade nach Antwort das passende Profil aus `references/project-profiles.md`.
+Schreibe `project_type: <typ>` (und ggf. `project_type_secondary: <typ2>`) in `PROJECT.md` (Step 3.5).
+
+**Round 3 — Arbeitsmodus:** Wie soll gearbeitet werden?
+
+```
+(a) Standard-Pipeline     → Discovery → Refine → Execute (klassisch)
+(b) Co-Planning           → wir bauen den Plan gemeinsam Schritt für Schritt
+(c) Autopilot             → /deepwork-alt-autopilot — vollautomatisch
+(d) Nur Struktur anlegen  → dann selbst entscheiden
+```
+
+**Round 4:** Was muss heute passieren?
 - Explore and brainstorm first?
 - Dive into discovery (research + planning)?
-- Start building immediately (skip to deepwork-03)?
+- Start building immediately?
 
 ---
 
@@ -106,93 +137,140 @@ Based on triage answers, choose the path:
 
 | Situation | Action |
 |-----------|--------|
-| Idea very vague, need to explore possibilities | Native Brainstorm Protocol ausführen (→ `references/native-protocols.md`), dann weiter zu Step 3 |
-| Clear enough to investigate feasibility | Continue to Step 3 |
-| Already have research/docs | Document Ingest Protocol ausführen (→ `references/native-protocols.md`), dann Step 3 |
-| Want to spike a specific technical question first | Spike Protocol ausführen (→ `references/native-protocols.md`), dann Step 3 |
-| Jumping straight to execution (plan already exists) | Handoff to deepwork-03 directly |
+| Modus (c) Autopilot gewählt | Handoff zu /deepwork-alt-autopilot — Projekttyp mitgeben |
+| Modus (b) Co-Planning gewählt | Co-Planning-Modus starten (siehe unten) |
+| Idea very vague | Native Brainstorm Protocol (→ `references/native-protocols.md`), dann Step 3 |
+| Clear enough | Continue to Step 3 |
+| Already have research/docs | Document Ingest Protocol (→ `references/native-protocols.md`), dann Step 3 |
+| Specific technical question | Spike Protocol (→ `references/native-protocols.md`), dann Step 3 |
+| Plan already exists | Handoff to deepwork-03 directly |
 
 Document routing decision in `.deepwork/decisions.md`.
 
+### Co-Planning-Modus (Modus b)
+
+Wenn Co-Planning gewählt:
+1. Nach Step 3 + 3.5: PLAN.md Sektion für Sektion gemeinsam entwickeln
+2. Pro Sektion: "Hier ist mein Vorschlag für Sektion X — dein Feedback?"
+3. User korrigiert/ergänzt/bestätigt → Section wird festgeschrieben
+4. Weiter mit nächster Sektion — bis Plan komplett
+5. Danach: direkt in deepwork-03 oder Pause
+
 ---
 
-## Step 3 — Standard-Projektstruktur anlegen ⚐
+## Step 3 — Adaptive Projektstruktur anlegen ⚐
 
-Lege zuerst die vollständige Standard-Ordnerstruktur an.
+Lege die Ordnerstruktur basierend auf dem Projekttyp an. Lies das Profil aus `references/project-profiles.md` für den gewählten Typ.
 
-**Anlegen (nur wenn noch nicht vorhanden):**
+In Klartext erklären (Projekttyp nennen):
+> "Ich lege jetzt die Ordnerstruktur für dein [Typ]-Projekt an — angepasst an diese Art von Arbeit."
+
+**Basis-Struktur (immer):**
 ```
-<project-root>/
-├── .deepwork/
-│   ├── planning/          ← Projektdefinition (PROJECT.md etc.)
-│   ├── research/          ← Wird von deepwork-01 befüllt
-│   ├── outputs/           ← Wird von deepwork-03 befüllt
-│   ├── journal/           ← Fortschrittsnotizen aller Phasen
-│   ├── decisions.md       ← Alle Entscheidungen chronologisch
-│   ├── cost-log.md        ← Token/Kosten-Protokoll
-│   ├── cost-summary.md    ← Kosten-Zusammenfassung
-│   └── tool-inventory.md  ← (bereits in Step 0 erstellt)
+.deepwork/
+├── planning/      ← Projektdefinition
+├── research/      ← Wird von deepwork-01 befüllt
+├── outputs/       ← Wird von deepwork-03 befüllt
+├── journal/       ← Fortschrittsnotizen
+├── decisions.md
+├── cost-log.md
+├── cost-summary.md
+└── tool-inventory.md  (aus Step 0)
 ```
 
-**Wachstum über das Projekt-Leben (entsteht organisch):**
-- `handoff.md` + `PLAN.md` + `VERDICT.md` → nach deepwork-01-discovery
+**Typ-spezifische Erweiterungen (aus project-profiles.md):**
+
+| Typ | Zusätzliche Ordner |
+|---|---|
+| coding | `src/` (stub), `tests/` (stub), `docs/` (stub) |
+| research | `sources/`, `synthesis/`, `reports/` |
+| content | `drafts/`, `published/`, `assets/` |
+| design | `wireframes/`, `specs/`, `assets/`, `components/` |
+| media | `prompts/`, `assets/`, `exports/`, `storyboards/` |
+| marketing | `copy/`, `campaigns/`, `assets/`, `briefs/` |
+| analysis | `data/`, `reports/`, `insights/`, `models/` |
+| concept | `ideas/`, `roadmaps/`, `pitches/`, `stakeholders/` |
+| education | `modules/`, `exercises/`, `assessments/`, `resources/` |
+| automation | `scripts/`, `configs/`, `tests/`, `workflows/` |
+| legal | `contracts/`, `research/`, `compliance/` |
+| finance | `models/`, `data/`, `reports/`, `forecasts/` |
+
+Bei Mischtypen: Basis + Haupt-Typ + top-3 Ordner des Zweit-Typs.
+
+**Wachstum über das Projekt-Leben (wird NICHT jetzt angelegt):**
+- `handoff.md` + `PLAN.md` + `VERDICT.md` → nach deepwork-01
 - `outputs/<section-id>/` → nach jeder deepwork-03-Sektion
 - `PROJECT-COMPLETE.md`, `NEXT-STEPS.md` → nach deepwork-end-report
 
 **Obsidian-Sync vorbereiten** (wenn Vault aus `DEEPWORK-CONFIG.md` existiert):
-Lege `<DEEPWORK_VAULT_PATH>\Projects\<project-slug>\Deepwork\` an — leer, bereit für spätere Synchronisation.
+`<DEEPWORK_VAULT_PATH>\Projects\<project-slug>\` anlegen — leer, bereit für Sync.
 
 ---
 
 ## Step 3.5 — Foundation Documents ⚐
 
-Ensure the foundational project documents exist. These are not optional — deepwork-01 reads them.
+Die folgenden Dateien sind Pflicht — deepwork-01 liest sie.
 
-Write these files unter `.deepwork/planning/` (native, direkt — kein externer Skill nötig):
+Schreibe unter `.deepwork/planning/` (nativ, kein externer Skill nötig):
 
-`PROJECT.md` — What: project name, domain, core problem, target user, primary goal, key constraints.
+**`PROJECT.md`** — Projektname, Domain, Kernproblem, Zielgruppe, Haupt-Ziel, Constraints.
+**Pflichtfeld:** `project_type: <typ>` (und ggf. `project_type_secondary: <typ2>`)
 
-`REQUIREMENTS.md` — Must-haves vs nice-to-haves vs explicitly-out-of-scope.
+```yaml
+# .deepwork/planning/PROJECT.md
+name: <Projektname>
+project_type: <coding|research|content|design|media|marketing|analysis|concept|education|automation|legal|finance>
+project_type_secondary: <typ2 | none>
+domain: <Bereich>
+core_problem: <Was soll gelöst werden>
+target_user: <Für wen>
+primary_goal: <Messbares Ziel>
+key_constraints: <Bekannte Einschränkungen>
+work_mode: <standard|co-planning|autopilot>
+```
 
-`ROADMAP.md` — High-level phases (no detail yet — deepwork-01 fills this in).
+**`REQUIREMENTS.md`** — Must-haves vs. Nice-to-haves vs. Explizit außerhalb.
 
-`STATE.md` — Current state: which phase, what's done, what's open.
+**`ROADMAP.md`** — Grobe Phasen (kein Detail — deepwork-01 füllt aus).
 
-These files are the foundation that every downstream agent reads to avoid re-asking decided questions.
+**`STATE.md`** — Aktueller Stand: Phase, Was erledigt, Was offen.
 
 ---
 
 ## Step 4 — Token Log + Memory Init ⚐
 
-Initialize `.deepwork/cost-log.md` and `.deepwork/decisions.md` (empty with headers).
+Initialize `.deepwork/cost-log.md` und `.deepwork/decisions.md` (leer mit Headers).
 
-Log bootstrap token cost (see `references/token-log-protocol.md` for format).
+Log bootstrap token cost (see `references/token-log-protocol.md`).
 
-If Ruflo memory is available: store a bootstrap memory entry tagged `projekt:<slug>`, `phase:00`, `kind:decision`.
+Falls Ruflo Memory verfügbar: Bootstrap-Memory-Eintrag speichern mit Tags `projekt:<slug>`, `phase:00`, `typ:<project_type>`.
 
 ---
 
-## Step 5 — Handoff to deepwork-01
+## Step 5 — Handoff
 
-Produce a clear block output:
 ```
 Bootstrap abgeschlossen.
-─────────────────────────────
-Grundlagen-Dokumente: .deepwork/planning/ (oder .planning/)
-Werkzeug-Übersicht:   .deepwork/tool-inventory.md
-─────────────────────────────
+─────────────────────────────────────────────────
+Projekttyp:     <typ> (→ Profil geladen: references/project-profiles.md)
+Arbeitsmodus:   <standard | co-planning | autopilot>
+Struktur:       .deepwork/ + <typ-spezifische Ordner>
+Grundlagen:     .deepwork/planning/PROJECT.md
+─────────────────────────────────────────────────
 WAS JETZT?
 
-→ /clear eingeben (leert den Kontext für einen sauberen Start)
+Standard / Co-Planning:
+→ /clear eingeben (leert Kontext für sauberen Start)
 → dann: /deepwork-01-discovery
 
-Wenn du die Setup-Details nochmal nachschlagen möchtest:
-  .deepwork/tool-inventory.md  ← welche Tools verfügbar sind
-  .deepwork/planning/PROJECT.md  ← Projekt-Definition
+Autopilot:
+→ /deepwork-alt-autopilot (Projekttyp wird übergeben)
 
-Wenn du später wiederkommst (nach einer Pause):
-  Das Projekt-Setup ist in .deepwork/ gespeichert.
-  Tippe /deepwork-entry-analyze um den Stand zu analysieren,
-  oder direkt /deepwork-01-discovery um mit der Discovery zu starten.
-─────────────────────────────
+Wenn du die Setup-Details nachschlagen willst:
+  .deepwork/tool-inventory.md    ← welche Tools verfügbar
+  .deepwork/planning/PROJECT.md  ← Projekt-Definition + Typ
+
+Wenn du später wiederkommst:
+  /deepwork-entry-analyze — analysiert den aktuellen Stand
+─────────────────────────────────────────────────
 ```

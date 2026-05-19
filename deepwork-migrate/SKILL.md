@@ -1,6 +1,6 @@
 ---
 name: deepwork-migrate
-description: "**VERALTET — Diese Funktion ist jetzt in deepwork-entry-analyze integriert.** Redirect: nutze /deepwork-entry-analyze stattdessen — erkennt automatisch ob keine oder eine veraltete deepwork-Struktur vorliegt und handelt entsprechend."
+description: "**VERALTET — Diese Funktion ist jetzt in deepwork-entry-analyze integriert.** Redirect: nutze /deepwork-entry-analyze stattdessen — erkennt automatisch ob keine oder eine veraltete deepwork-Struktur vorliegt und handelt entsprechend. Dieser Skill ist ein Redirect zu /deepwork-entry-analyze, welcher alle Migrationsfälle behandelt — inklusive automatischer Erkennung des Projekttyps (coding, research, content, design, media, marketing, analysis, concept, education, automation, legal, finance) und Anlage der typ-spezifischen Ordnerstruktur."
 allowed-tools:
   - Read
 ---
@@ -17,4 +17,4 @@ Diese Skill ist in `deepwork-entry-analyze` aufgegangen.
 Statt /deepwork-migrate → nutze /deepwork-entry-analyze
 ```
 
-Der Skill startet automatisch im richtigen Modus basierend auf dem was er vorfindet.
+Der Skill startet automatisch im richtigen Modus basierend auf dem was er vorfindet — inklusive automatischer Erkennung des Projekttyps (coding, research, content, design, media, marketing, analysis, concept, education, automation, legal, finance) und Anlage der typ-spezifischen Ordnerstruktur.

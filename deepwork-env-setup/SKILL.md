@@ -1,6 +1,6 @@
 ---
 name: deepwork-env-setup
-description: "**When: MUST — Run once per machine before starting any deepwork project. Sets up Claude Code in the best possible environment.** Prüft alle Tools, MCPs, Plugins und Einstellungen gegen eine Quality-Baseline, findet Lücken, und führt den User Schritt für Schritt durch die Behebung — ohne jemals etwas ohne Bestätigung zu installieren. Legt auch den Obsidian-Vault an (D:\\Claude\\ObsidianVault\\) falls noch nicht vorhanden. Trigger: 'umgebung einrichten', 'setup', 'claude code optimal einrichten', 'bevor wir starten', 'check environment', '/deepwork-env-setup', oder zu Beginn einer neuen Maschine/Installation."
+description: "**When: MUST — Run once per machine before starting any deepwork project. Also run when starting a new project type (design, media, etc.) to check type-specific tools.** Prüft alle Tools, MCPs, Plugins und Einstellungen gegen eine Quality-Baseline. Führt Auto-Discovery aus: sucht auf GitHub und im Plugin-Store nach Skills/MCPs die deinen Workflow verbessern würden — und macht installierbare Vorschläge. Typ-bewusst: für Design-Projekte wird Figma MCP geprüft, für Media-Projekte higgsfield, etc. Trigger: 'umgebung einrichten', 'setup', 'claude code optimal einrichten', 'bevor wir starten', 'check environment', '/deepwork-env-setup', neue Maschine, oder nach Projekttyp-Wahl."
 allowed-tools:
   - Read
   - Write
@@ -11,13 +11,17 @@ allowed-tools:
   - Skill
 ---
 
-# deepwork-env-setup: Umgebungs-Setup
+# deepwork-env-setup: Umgebungs-Setup + Auto-Discovery
 
-**Einmalig pro Maschine ausführen.** Ziel: Claude Code in die beste mögliche Arbeitsumgebung bringen, bevor das erste Projekt startet. Ohne diese Basis fehlen Tools, die alle anderen deepwork-Skills voraussetzen.
+**Einmalig pro Maschine ausführen — oder nach Projekttyp-Wahl um typ-spezifische Tools zu prüfen.**
+
+Ziel: Claude Code in die beste mögliche Arbeitsumgebung bringen. Findet was fehlt, macht installierbare Vorschläge — ohne jemals etwas ohne Bestätigung zu ändern.
 
 **Lies zuerst:**
-- `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap (zuerst lesen!)
+- `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap
 - `references/quality-baseline.md` — was muss installiert sein
+- `references/project-profiles.md` — welche MCPs/Tools pro Projekttyp gebraucht werden
+- `references/auto-discovery-protocol.md` — wie Auto-Discovery durchgeführt wird
 - `references/hooks-defaults.md` — empfohlene Hook-Konfiguration
 - `references/vault-bootstrap.md` — Obsidian-Vault Aufbau
 
@@ -25,77 +29,114 @@ allowed-tools:
 
 ## Schritt 1 — Vollständige Inventur (nur lesen, nichts ändern)
 
-Zuerst den IST-Zustand feststellen. In einfacher Sprache erklären, was geprüft wird:
+> "Ich schaue mir jetzt an, welche Hilfsprogramme und Erweiterungen bei dir installiert sind."
 
-> "Ich schaue mir jetzt an, welche Hilfsprogramme und Erweiterungen bei dir installiert sind, damit ich herausfinden kann, was noch fehlt."
+**A. Skills prüfen** (aus system-reminder):
+- Sind alle deepwork-Skills vorhanden?
+- Welche anderen Skills (gsd-*, ui-ux-pro-max, etc.) sind installiert?
 
-**A. Skills prüfen** (aus system-reminder verfügbar):
-- Sind die deepwork-Skills (deepwork-00-bootstrap bis deepwork-entry-analyze, deepwork-env-setup, deepwork-migrate) alle da?
+**B. MCPs prüfen** — jeden wirklich aufrufen, nicht nur Konfiguration prüfen:
 
-**B. MCPs prüfen** (nicht nur Konfiguration — jedes MCP wirklich aufrufen, nicht nur Listeneintrag prüfen):
-
-Für jedes Pflicht-MCP: einen einfachen Test-Aufruf machen und schauen ob eine Antwort kommt.
-
-| MCP | Test-Aufruf | Was ein Erfolg bedeutet |
+| MCP | Test-Aufruf | Erfolg |
 |---|---|---|
-| `context7` | `mcp__context7__resolve-library-id` mit query "react" | Gibt eine Library-ID zurück |
-| `filesystem` | `mcp__filesystem__list_allowed_directories` | Gibt erlaubte Pfade zurück |
-| `exa` | `WebSearch` mit einfachem Begriff (als Proxy) | Gibt Ergebnisse zurück |
-| `firecrawl` | Kleinen bekannten URL scrapen (z.B. example.com) | Gibt Seiteninhalt zurück |
+| `context7` | `mcp__context7__resolve-library-id` query="react" | Gibt Library-ID zurück |
+| `filesystem` | `mcp__filesystem__list_allowed_directories` | Gibt Pfade zurück |
+| `exa` | WebSearch mit Begriff | Gibt Ergebnisse zurück |
+| `firecrawl` | `mcp__firecrawl__firecrawl_scrape` url="https://example.com" | Gibt Seiteninhalt zurück |
 | `obsidian` | Vault-Ordner lesen falls vorhanden | Gibt Ordnerstruktur zurück |
 | `playwright` | `mcp__plugin_playwright_playwright__browser_snapshot` | Gibt DOM zurück |
-
-**Ergebnis:** Für jedes MCP festhalten: `installiert + funktioniert` / `installiert, aber Fehler: <was>` / `nicht installiert`
-
-Ein MCP das nur in der Konfiguration steht aber keine Antwort gibt, zählt als NICHT verfügbar.
+| `higgsfield` | `mcp__higgsfield__balance` | Gibt Account-Status zurück |
 
 **C. Ruflo-Plugins prüfen** (aus system-reminder):
-- ruflo-swarm (parallele Arbeit mit mehreren Helfern gleichzeitig)
-- ruflo-autopilot (vollautomatischer Modus)
-- ruflo-loop-workers (Hintergrund-Aufgaben)
-- ruflo-cost-tracker (Kosten im Blick behalten)
-- ruflo-knowledge-graph (Wissens-Netzwerk)
+- ruflo-swarm, ruflo-autopilot, ruflo-loop-workers, ruflo-cost-tracker, ruflo-knowledge-graph
 
 **D. Obsidian-Vault prüfen:**
-- Existiert `D:\Claude\ObsidianVault\`?
-- Existiert `D:\Claude\ObsidianVault\Projects\`?
+- `D:\Claude\ObsidianVault\` vorhanden?
+- Unterstruktur `Projects\` + `Inbox\` vorhanden?
 
 **E. Hooks prüfen** (`~/.claude/settings.json`):
 - Welche Hooks sind konfiguriert?
 
-**F. ENVIRONMENT.md prüfen:**
-- Existiert `~/.claude/ENVIRONMENT.md`? Falls ja: wann war der letzte Check?
-
-Alles sammeln — noch nichts ausgeben.
+**F. Projekttyp-Kontext:**
+Falls ein Projekt aktiv ist: `project_type` aus `.deepwork/planning/PROJECT.md` lesen.
+Das bestimmt welche typ-spezifischen Tools zusätzlich geprüft werden.
 
 ---
 
-## Schritt 2 — Gap-Analyse und Ergebnis zeigen
-
-Ausgabe in klarer, einfacher Sprache. Kein Tech-Jargon ohne Erklärung:
+## Schritt 2 — Gap-Analyse + Ergebnis zeigen
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 DEINE CLAUDE CODE UMGEBUNG — AKTUELLER STAND
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✓ Vorhanden:
-  <liste was gut ist>
+✓ Vorhanden und funktioniert:
+  <liste>
 
 ⚠️ Fehlt oder nicht optimal:
-  <liste was fehlt>
+  <liste>
 
+<Falls Projekttyp bekannt:>
+📌 Typ-spezifische Lücken (<projekttyp>-Projekt):
+  <was für diesen Typ besonders wichtig wäre>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ---
 
-## Schritt 3 — Lücken Schritt für Schritt schließen
+## Schritt 2.5 — Auto-Discovery: Was könnte fehlen?
 
-Für jede Lücke: erst erklären was es ist und warum es wichtig ist, dann fragen ob installiert werden soll. Niemals mehrere Dinge auf einmal — immer eine nach der anderen.
+Führe `references/auto-discovery-protocol.md` aus:
+
+1. **GitHub-Scan** (via `mcp__plugin_github_github__search_repositories`):
+   - Suche: `topic:claude-code-skill` + Projekttyp-Keywords
+   - Vergleiche mit installierten Skills
+   - Identifiziere relevante Repos mit >5 Stars
+
+2. **Plugin-Store-Scan** (via `mcp__ruflo__transfer_plugin-search` falls verfügbar):
+   - Suche nach Plugins relevant für aktiven Projekttyp
+   - Vergleiche mit `enabledPlugins` in settings.json
+
+3. **Typ-spezifische MCP-Lücken** (aus `references/project-profiles.md`):
+   - Für coding-Projekte: context7 + github Pflicht
+   - Für design-Projekte: Figma MCP Pflicht
+   - Für media-Projekte: higgsfield Pflicht
+   - Für research/analysis: exa + firecrawl Pflicht
+   - etc.
+
+**Empfehlungs-Block ausgeben:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AUTO-DISCOVERY — Potenzielle Verbesserungen
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<Falls Projekttyp: "Für dein <typ>-Projekt gefunden:">
+
+⚡ SOFORT INSTALLIERBAR (via claude mcp add):
+  • <name> — <was es tut in 1 Satz>
+    Befehl: claude mcp add <name> <command>
+
+💡 EMPFOHLEN (manuelle Einrichtung):
+  • <plugin-name> — <was es tut>
+
+📦 INTERESSANT (optional):
+  • <tool-name> — <warum nützlich>
+
+Nichts gefunden? → Umgebung ist bereits optimal für diesen Projekttyp.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Sicherheitsregeln:
+- Nur Quellen mit nachvollziehbarer Provenienz (offizielle Anthropic, bekannte MCPs, GitHub >5 stars)
+- Niemals automatisch installieren — immer y/skip fragen
+- Keine Änderungen an ~/.claude.json
+
+---
+
+## Schritt 3 — Lücken schließen
+
+Für jede Lücke: erst erklären, dann fragen. Einzeln — nie mehrere auf einmal.
 
 **Format pro Lücke:**
-
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚠️ FEHLT: <Name in normaler Sprache>
@@ -104,74 +145,45 @@ Was ist das?
 <1–2 Sätze ohne Fachbegriffe>
 
 Warum brauchst du das?
-<Konkret: was geht ohne das nicht, oder schlechter>
+<Konkret: was geht ohne das nicht>
 
-Was ich dafür tue:
-<Beschreibung der Aktion in normaler Sprache>
+<Falls typ-spezifisch:>
+Besonders wichtig für: <typ>-Projekte — <warum>
 
-Technischer Befehl (falls du neugierig bist):
-<der eigentliche Befehl>
-
-Soll ich das jetzt einrichten? (ja / überspringen / erklär mir mehr)
+Soll ich das jetzt einrichten? (ja / überspringen / erklär mehr)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**Reihenfolge der Lücken (von wichtig nach optional):**
-1. Obsidian-Vault (Langzeit-Gedächtnis für Projekte)
-2. context7 MCP (aktuelle Dokumentation nachschlagen)
-3. filesystem MCP (Dateizugriff über Projektgrenzen hinaus)
+**Reihenfolge (wichtig → optional):**
+1. Obsidian-Vault (Langzeit-Gedächtnis)
+2. context7 MCP (aktuelle Dokumentation)
+3. filesystem MCP (Dateizugriff)
 4. exa MCP (tiefe Web-Recherche)
-5. firecrawl MCP (vollständige Webseiten einlesen)
-6. Ruflo-Plugins (parallele Arbeit, Autopilot, Kosten-Tracking)
-7. Hooks (automatische Verhaltensregeln)
-8. obsidian MCP (direkter Vault-Zugriff)
-9. playwright MCP (Browser-Automatisierung)
-
-**Bei Webbrowser-Aktionen (Login, Konfiguration im Browser):**
-Lese `references/vault-bootstrap.md` für den genauen Ablauf. Immer:
-1. Browser öffnen: `start <url>` (Windows) oder `open <url>` (Mac)
-2. Genau beschreiben was zu tun ist: welche Buttons, welche Felder
-3. Warten auf Bestätigung des Users
+5. firecrawl MCP (Webseiten einlesen)
+6. Typ-spezifische MCPs (Figma für design, higgsfield für media, etc.)
+7. Ruflo-Plugins (parallele Arbeit, Autopilot, Kosten)
+8. Hooks
+9. obsidian MCP (direkter Vault-Zugriff)
+10. playwright MCP (Browser-Automatisierung)
+11. Auto-Discovery-Empfehlungen
 
 ---
 
 ## Schritt 4 — Hooks konfigurieren
 
-Lese `references/hooks-defaults.md`. Für jeden empfohlenen Hook:
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-EMPFOHLENE EINSTELLUNG: <Hook-Name in normaler Sprache>
-
-Was macht das?
-<1 Satz: was passiert automatisch, wenn dieser Hook aktiv ist>
-
-Beispiel:
-<konkretes Beispiel wann das nützlich ist>
-
-Soll ich das aktivieren? (ja / nein / was ist das genau?)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+Lese `references/hooks-defaults.md`. Für jeden empfohlenen Hook einzeln bestätigen.
 
 ---
 
 ## Schritt 5 — Vault-Struktur anlegen
 
-Lese `references/vault-bootstrap.md`.
+Lese `references/vault-bootstrap.md`. Vault-Pfad aus DEEPWORK-CONFIG.md.
 
-Vault-Pfad aus `DEEPWORK-CONFIG.md` lesen (`DEEPWORK_VAULT_PATH`).
-
-Falls der Vault noch nicht existiert oder unvollständig ist: anlegen.
-Falls bereits vorhanden: prüfen ob Unterstruktur stimmt, fehlende Ordner ergänzen.
-
-In Klartext erklären was angelegt wird und warum:
-> "Ich lege jetzt die Ordnerstruktur für deinen Wissens-Speicher an. Das ist der Ort, wo alle wichtigen Erkenntnisse aus unseren Projekten dauerhaft gespeichert werden — auch wenn du die Unterhaltung neu startest."
+Falls Vault fehlt oder unvollständig: anlegen.
 
 ---
 
-## Schritt 6 — ENVIRONMENT.md schreiben
-
-Snapshot des aktuellen Stands als `~/.claude/ENVIRONMENT.md`:
+## Schritt 6 — ENVIRONMENT.md schreiben / aktualisieren
 
 ```markdown
 # Claude Code Environment — Baseline Snapshot
@@ -180,35 +192,28 @@ Nächster empfohlener Check: in 30 Tagen
 
 ## Installierte MCPs
 | MCP | Status | Zweck |
-|---|---|---|
-| context7 | <installiert/fehlt> | Dokumentation nachschlagen |
-| filesystem | <installiert/fehlt> | Dateizugriff |
-| exa | <installiert/fehlt> | Tiefe Web-Recherche |
-| firecrawl | <installiert/fehlt> | Webseiten einlesen |
-| obsidian | <installiert/fehlt> | Vault-Zugriff |
-| playwright | <installiert/fehlt> | Browser-Automatisierung |
+...
 
 ## Ruflo-Plugins
-| Plugin | Status | Zweck |
-|---|---|---|
-| ruflo-swarm | <ja/nein> | Parallele Helfer |
-| ruflo-autopilot | <ja/nein> | Vollautomatischer Modus |
-| ruflo-loop-workers | <ja/nein> | Hintergrund-Aufgaben |
-| ruflo-cost-tracker | <ja/nein> | Kosten im Blick |
-| ruflo-knowledge-graph | <ja/nein> | Wissens-Netzwerk |
+...
 
 ## Obsidian-Vault
-Pfad: <aus DEEPWORK-CONFIG.md: DEEPWORK_VAULT_PATH>
+Pfad: <DEEPWORK_VAULT_PATH>
 Status: <vorhanden/angelegt/fehlt>
 
-## Aktive Hooks
-<liste der konfigurierten Hooks>
+## Auto-Discovery Ergebnisse
+Letzter Scan: <datum>
+Empfehlungen umgesetzt: <liste>
+Empfehlungen übersprungen: <liste>
 
-## Offene Lücken (bewusst übersprungen)
-<was der User übersprungen hat und warum>
+## Aktive Hooks
+<liste>
 
 ## Deepwork-Skills
-<status: alle vorhanden / fehlende auflisten>
+<status>
+
+## Offene Lücken
+<was übersprungen wurde>
 ```
 
 ---
@@ -222,16 +227,19 @@ SETUP ABGESCHLOSSEN
 Deine Umgebung ist jetzt bereit für deepwork-Projekte.
 
 Was eingerichtet wurde:
-<kurze Liste in normaler Sprache>
+<kurze Liste>
+
+Auto-Discovery: <N> Verbesserungen gefunden, <M> installiert
 
 Was noch fehlt (falls übersprungen):
-<kurze Liste + Hinweis dass du es später nachholen kannst>
+<liste + Hinweis>
 
 Nächster Schritt:
-Für ein neues Projekt: /deepwork-00-bootstrap
-Für ein bestehendes Projekt: /deepwork-entry-analyze
+Für ein neues Projekt:      /deepwork-00-bootstrap
+Für bestehendes Projekt:    /deepwork-entry-analyze
+Für einzelne Protokolle:    /deepwork-quick
 
-Tipp: Dieser Setup-Check empfiehlt sich alle 30 Tage oder
-      nach größeren Updates von Claude Code.
+Tipp: Dieser Check empfiehlt sich alle 30 Tage oder
+      wenn du mit einem neuen Projekttyp beginnst.
 ═══════════════════════════════════════════════════
 ```
