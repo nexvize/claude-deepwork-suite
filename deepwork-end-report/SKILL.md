@@ -214,7 +214,7 @@ Key files to read first: `./handoff.md`, `./NEXT-STEPS.md`, `.deepwork/decisions
 
 Things the user should learn or get help with to maintain and grow this project:
 | Topic | Why It Matters | Resource to Start With |
-|-------|---------------|------------------------|
+|-------|---------------|----------------------|
 | <technical topic user wasn't familiar with> | <impact on their project> | <specific resource, not just "google it"> |
 
 ---

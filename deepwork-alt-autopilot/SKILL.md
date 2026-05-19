@@ -311,7 +311,7 @@ Stop reason: <all-complete | cost-cap | time-cap | user-abort | pause-trigger>
 
 ## Token Summary
 | Phase | Input | Output | Cache | Est. Cost |
-|-------|-------|--------|-------|----------|
+|-------|-------|--------|-------|-----------|
 | (from cost-summary.md) |
 
 ## Assumptions Reality Check
