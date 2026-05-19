@@ -177,43 +177,9 @@ Persist each round → `.deepwork/journal/<date>-01-interview-B.md`.
 
 ## Step 4 — Plan Draft ⚐
 
-Write `.deepwork/PLAN.md`:
+Write `.deepwork/PLAN.md`.
 
-```markdown
-# Plan: <Project Name>
-
-## Goal
-<What success looks like. Must match the binary success criterion from the interview.>
-
-## Chosen Approach
-<Why this approach over the tellerrand alternatives. Specific reasoning.>
-
-## Tellerrand Alternatives Not Chosen
-| Alternative | Why Not |
-|-------------|---------|
-
-## Scope
-### In
-### Out
-
-## Execution Sections
-<These become deepwork-03 execution units. Each must be independently executable.>
-| # | Section | Estimated effort | Key dependencies |
-|---|---------|-----------------|------------------|
-
-## Assumptions (explicit, with status)
-| # | Assumption | Status | Fallback if wrong |
-|---|-----------|--------|-------------------|
-
-## Risks
-| Risk | Severity | Mitigation |
-|------|----------|------------|
-
-## Open Questions
-<Things not yet resolved — for re-interview or deepwork-02 discussion>
-```
-
-**Self-reflection check ⚐:** Read the draft plan as if you were the user (non-technical). Does it solve the right problem? Is it the simplest approach that works? Are there simpler alternatives you haven't presented?
+**Self-reflection check ⚐:** Read the draft plan as if you were the user (non-technical). Does it solve the right problem? Is it the simplest approach that works?
 
 **Non-technical review ⚐** (see `references/user-profile.md` checklist): Run the Non-Technical User Checklist before presenting the plan.
 
@@ -223,11 +189,11 @@ Write `.deepwork/PLAN.md`:
 
 **Run in parallel:**
 
-**Stress-test:** Invoke `kreuzverhoer` — Run `Skill` tool → `kreuzverhoer` on `PLAN.md`. Challenge: Is the chosen approach actually the simplest? Are the effort estimates realistic? Are the assumptions verifiable or just wishful thinking? Is each section genuinely independent? Output → document findings in `.deepwork/decisions.md`. If `kreuzverhoer` is unavailable: go assumption-by-assumption and demand evidence or a spike to verify. Ask "what could go wrong?" for each section.
+**Stress-test:** Invoke `kreuzverhoer` — Run `Skill` tool → `kreuzverhoer` on `PLAN.md`.
 
-**Counter-proposal:** Spawn 1 `Plan`-type Agent with prompt: "Given this project goal and constraints [paste from PLAN.md], write an alternative plan that makes different architectural or approach choices. Be genuinely different, not just different wording." Review the counter-proposal and incorporate anything better.
+**Counter-proposal:** Spawn 1 `Plan`-type Agent with prompt: "Given this project goal and constraints, write an alternative plan that makes different architectural or approach choices."
 
-**Reality check:** Apply effort ×2 multiplier. Does the plan still fit within constraints? Adjust scope if not.
+**Reality check:** Apply effort ×2 multiplier. Does the plan still fit within constraints?
 
 Hardening findings → `.deepwork/decisions.md` and updated `PLAN.md`.
 
@@ -237,18 +203,9 @@ Hardening findings → `.deepwork/decisions.md` and updated `PLAN.md`.
 
 **Read:** `references/verdict-rubric.md` for the full scoring rubric.
 
-**Projekttyp-spezifische Verification-Kriterien:** Lese die Verification-Kriterien für den aktiven Projekttyp aus `references/project-profiles.md`. Die Verdict-Dimensionen und Schwellwerte können je nach Typ variieren — ein `legal`-Projekt hat andere GO-Kriterien als ein `coding`-Projekt.
+**Projekttyp-spezifische Verification-Kriterien:** Lese die Verification-Kriterien für den aktiven Projekttyp aus `references/project-profiles.md`. Die Verdict-Dimensionen und Schwellwerte können je nach Typ variieren.
 
 Score all 6 dimensions. Apply verdict logic. Write `.deepwork/VERDICT.md`.
-
-**Present verdict to user via `AskUserQuestion`:**
-- Summary of verdict + key reasoning
-- Options: Accept | Challenge a specific dimension | Adjust scope | Abort
-
-**On challenge:** revisit that dimension, adjust score, re-verdict.  
-**On scope adjustment:** loop back to Step 4 with new constraints.  
-**On NO-GO:** skill stops here. Block output explains what would need to change.  
-**On GO or GO-WITH-CUTS:** proceed to Step 7.
 
 **NO-GO is not failure. It's the skill working.**
 
@@ -256,11 +213,11 @@ Score all 6 dimensions. Apply verdict logic. Write `.deepwork/VERDICT.md`.
 
 ## Step 7 — Handoff + Token Log + Memory Snapshot + Clear ⚐
 
-**1. Write `./handoff.md`** following `references/handoff-protocol.md` exactly. Every section of the schema must be filled. Run the cold-start test mentally: "could a new session work from this alone?"
+**1. Write `./handoff.md`** following `references/handoff-protocol.md` exactly.
 
-**2. Token log:** Follow `references/token-log-protocol.md`. Write to `.deepwork/cost-log.md`. Cover this entire session — all agents, MCPs, and direct tool calls.
+**2. Token log:** Follow `references/token-log-protocol.md`. Write to `.deepwork/cost-log.md`.
 
-**3. Memory snapshot:** Final sync of journal + decisions.md. If Ruflo available: flush pending memory writes, run `agentdb_session-end` if available.
+**3. Memory snapshot:** Final sync of journal + decisions.md.
 
 **4. Update cost-summary.md** with Phase 01 aggregate.
 
@@ -269,37 +226,15 @@ Score all 6 dimensions. Apply verdict logic. Write `.deepwork/VERDICT.md`.
 ═══════════════════════════════════════════
 DISCOVERY-PHASE ABGESCHLOSSEN
 ═══════════════════════════════════════════
-Ergebnis: <GO — wir bauen | GO-WITH-CUTS — wir bauen, aber mit Einschränkungen | NO-GO — jetzt noch nicht>
+Ergebnis: <GO | GO-WITH-CUTS | NO-GO>
 
 Was vorliegt:
-  handoff.md (Übergabe-Dokument mit dem gesamten Plan) ✓
+  handoff.md ✓
   Kosten protokolliert (.deepwork/cost-log.md) ✓
   Notizen gespeichert (.deepwork/journal/) ✓
 
 Wie es weitergeht:
-  → /clear eingeben (leert den Kontext für einen sauberen Start)
-  → dann /deepwork-02-refine (Details klären und Umsetzungsplan fertigstellen)
+  → /clear eingeben
+  → dann /deepwork-02-refine
 ═══════════════════════════════════════════
-```
-
-**6. Obsidian sync:** If vault is configured, sync `PLAN.md`, `VERDICT.md`, `handoff.md`, `decisions.md` to vault. See `references/tool-awareness.md`.
-
----
-
-**Output nach Step 7:**
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-WAS JETZT?
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Nach /clear:  /deepwork-02-refine  (Plan → ausführbare Schritte)
-
-Wenn du Pause machst und später wiederkommst:
-  Tippe einfach /deepwork-02-refine — der Skill liest handoff.md
-  und weiß genau wo du aufgehört hast.
-
-Wenn das Verdikt NO-GO war:
-  Diskutiere den Scope mit dem User, dann /deepwork-01-discovery erneut
-  mit angepasstem Fokus.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
