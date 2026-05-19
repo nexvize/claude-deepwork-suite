@@ -1,5 +1,5 @@
 ---
-description: Alle Sections autonom durchführen — Alternative zu deepwork-03-execute (kein /clear nötig)
+description: Vollautomatischer Modus — für alle Projekttypen. Wählt automatisch die richtigen Protokolle, MCPs und Swarm-Strategien basierend auf Projekttyp (coding, design, content, media, marketing, analysis, concept, education, automation, legal, finance, research). Mega-Interview → Contract → autonome Ausführung. Für Demo-Prototypen und Hands-off-Arbeit.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task, AskUserQuestion, Skill
 ---
 
