@@ -1,6 +1,6 @@
 ---
 name: deepwork-quick
-description: "**When: CAN — Nutze einzelne deepwork-Protokolle ohne die vollständige Pipeline zu starten.** Code Review, Debug-Session, Spike, Refactor, Brainstorm — auf jedes beliebige Projekt, ohne handoff.md oder Pflichtkette. Trigger: 'code review machen', 'bug fixen', 'spike', 'refactoring', 'brainstorm', 'schnell helfen', '/deepwork-quick', oder wenn jemand eine konkrete Einzelaufgabe braucht ohne das ganze deepwork zu starten. Auch gut als Brücke zurück in den vollen deepwork-Modus."
+description: "**When: CAN — Nutze einzelne deepwork-Protokolle ohne die vollständige Pipeline zu starten.** Code Review, Debug-Session, Spike, Refactor, Brainstorm — auf jedes beliebige Projekt, ohne handoff.md oder Pflichtkette. Unterstützt alle 12 Projekttypen (coding, research, content, design, media, marketing, analysis, concept, education, automation, legal, finance) — Protokoll-Auswahl passt sich dynamisch an den Projekttyp an. Trigger: 'code review machen', 'bug fixen', 'spike', 'refactoring', 'brainstorm', 'schnell helfen', '/deepwork-quick', oder wenn jemand eine konkrete Einzelaufgabe braucht ohne das ganze deepwork zu starten. Auch gut als Brücke zurück in den vollen deepwork-Modus."
 allowed-tools:
   - Read
   - Write
@@ -22,22 +22,52 @@ Kein handoff.md nötig. Kein Discovery. Direkt zum Protokoll.
 - `references/native-protocols.md` — alle Protokolle
 - `references/user-profile.md`
 - `references/tool-awareness.md`
+- `references/project-profiles.md` — Projekttyp-Profile (für dynamische Protokoll-Auswahl)
+
+## Projekttyp-Präambel ⚐
+
+Am Start jeder Session:
+
+1. `PROJECT.md` lesen (`.deepwork/planning/PROJECT.md`)
+2. `project_type` auslesen (coding | research | content | design | media | marketing | analysis | concept | education | automation | legal | finance)
+3. Falls nicht vorhanden: kurz fragen welcher Typ
+4. `references/project-profiles.md` — Profil für diesen Typ laden
+5. Profil-Einstellungen übernehmen: bevorzugte Protokolle, MCPs, Verification-Kriterien, Swarm-Sizing
 
 ---
 
-## Schritt 0 — Was brauchst du? ⚐
+## Schritt 0 — Projekttyp erkennen + Protokoll wählen ⚐
 
-Frage via `AskUserQuestion`. Nutze die 5-stufige Empfehlung wenn die Intensität unklar ist.
+**Projekttyp laden:**
+- `.deepwork/planning/PROJECT.md` lesen falls vorhanden → `project_type` auslesen
+- Falls nicht: kurz fragen (1 Klick-Auswahl aus 12 Typen)
+- Profil aus `references/project-profiles.md` laden
 
-| Aufgabe | Protokoll | Typische Situation |
-|---|---|---|
-| Code Review | Code Review Protocol | "Schau mal drüber, ist das gut?" |
-| Bug fixen | Debug Protocol (inkl. Self-Verification-first) | "Ich hab einen Bug der sich nicht lösen lässt" |
-| Technische Frage klären | Spike Protocol | "Ich weiß nicht ob X mit Y überhaupt funktioniert" |
-| Code aufräumen | Refactor Protocol | "Der Code ist unübersichtlich geworden" |
-| Ideen entwickeln | Brainstorm Protocol | "Ich weiß nicht wie ich anfangen soll" |
-| Docs/Research einlesen | Document Ingest Protocol | "Ich hab Dokumente die du kennen sollst" |
-| Ergebnis prüfen | Verification Protocol | "Ich will wissen ob das wirklich funktioniert" |
+**Protokoll-Tabelle (dynamisch nach Typ):**
+
+Zeige dem User NUR die Protokolle die für seinen Projekttyp relevant sind:
+
+| Typ | Primäre Protokoll-Optionen |
+|---|---|
+| coding | Code Review, Debug (Self-Verification-first), Refactor, Spike, TDD, Verification |
+| research | Document Ingest, Spike, Verification, Brainstorm |
+| content | Brainstorm, Outline, Draft, Edit, Proofread, SEO-Optimize |
+| design | WireframeReview, DesignAudit, UX-Heuristics, FigmaSpec, ComponentInventory |
+| media | PromptEngineering, Storyboard, AssetInventory, VideoScript |
+| marketing | Brainstorm, CampaignPlan, CopyReview, Verification, SEO-Optimize |
+| analysis | DataIngest, InsightExtraction, Hypothesis-Test, ReportDraft |
+| concept | Brainstorm, StructuredPlanning, Spike, PitchDeck, RoadmapBuild |
+| education | LearningOutcomes, CurriculumOutline, ExerciseDesign, AssessmentDesign |
+| automation | Spike, CodeReview, IntegrationTest, Verification |
+| legal | Document Ingest, Verification, Draft, Spike |
+| finance | DataIngest, Hypothesis-Test, Verification, ReportDraft |
+
+**Alle anderen Protokolle auch verfügbar** — aber zeige zuerst die typ-relevanten.
+
+**Neu: Auto-Discovery als Protokoll-Option:**
+Immer als Option anbieten: "Auto-Discovery — Findet fehlende Skills/MCPs/Plugins für diesen Projekttyp"
+
+**Protokoll-Quellen:** Protokolle für coding/research/brainstorm/debug: `references/native-protocols.md`. Protokolle für content: `references/content-protocols.md`. Für design: `references/design-protocols.md`. Für media: `references/media-protocols.md`. Für analysis: `references/analysis-protocols.md`. Für concept/education: `references/concept-protocols.md` + `references/education-protocols.md`.
 
 **Complexity Check:** Falls die Aufgabe mehrere Protokolle braucht, oder das Resultat ein eigenständiges Projekt wird → klar kommunizieren:
 ```
