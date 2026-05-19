@@ -18,6 +18,7 @@ allowed-tools:
 Kein handoff.md nötig. Kein Discovery. Direkt zum Protokoll.
 
 **Lies zuerst:**
+- `references/plain-language.md` — Klartext-Pflicht (Status-Updates, Pre-Permission-Blocks, Pause-Blöcke)
 - `DEEPWORK-CONFIG.md`
 - `references/native-protocols.md` — alle Protokolle
 - `references/user-profile.md`

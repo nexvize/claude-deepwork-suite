@@ -18,6 +18,7 @@ allowed-tools:
 Ziel: Claude Code in die beste mögliche Arbeitsumgebung bringen. Findet was fehlt, macht installierbare Vorschläge — ohne jemals etwas ohne Bestätigung zu ändern.
 
 **Lies zuerst:**
+- `references/plain-language.md` — Klartext-Pflicht (Status-Updates, Pre-Permission-Blocks, Pause-Blöcke)
 - `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap
 - `references/quality-baseline.md` — was muss installiert sein
 - `references/project-profiles.md` — welche MCPs/Tools pro Projekttyp gebraucht werden

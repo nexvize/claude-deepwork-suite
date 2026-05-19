@@ -18,6 +18,7 @@ allowed-tools:
 **Part 4 of the deepwork suite.** One section per invocation. Quality over speed.
 
 **Read first:**
+- `references/plain-language.md` — Klartext-Pflicht (Status-Updates, Pre-Permission-Blocks, Pause-Blöcke)
 - `DEEPWORK-CONFIG.md`
 - `references/native-protocols.md`
 - `references/tool-awareness.md`

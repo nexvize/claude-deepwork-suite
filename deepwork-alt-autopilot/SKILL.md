@@ -18,6 +18,7 @@ allowed-tools:
 **Alternative zu deepwork-03-execute — für wenn du nicht Schritt für Schritt dabei sein willst.** Führt die gesamte deepwork-Pipeline (00→01→02→03) autonom durch. Einzige Momente die deine Aufmerksamkeit brauchen: das Mega-Interview am Anfang, und die 8 immer-aktiven Pause-Trigger (NO-GO, Killer-Risiko, Cost-Cap etc.).
 
 **Read first:**
+- `references/plain-language.md` — Klartext-Pflicht (Status-Updates, Pre-Permission-Blocks, Pause-Blöcke)
 - `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap (zuerst lesen!)
 - `references/native-protocols.md` — alle nativen Protokolle (Verification, Debug, Code Review, etc.)
 - `references/tool-awareness.md`

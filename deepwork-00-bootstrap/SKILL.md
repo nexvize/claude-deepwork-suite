@@ -12,6 +12,7 @@ allowed-tools:
 ---
 
 **Lies zuerst:**
+- `references/plain-language.md` — Klartext-Pflicht (Status-Updates, Pre-Permission-Blocks, Pause-Blöcke)
 - `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap (zuerst lesen!)
 - `references/project-profiles.md` — Projekttypen + adaptive Ordnerstruktur
 - `references/tool-awareness.md` — Tool-Routing bei jedem ⚐

@@ -16,6 +16,7 @@ allowed-tools:
 **Läuft nach allen Sections — der Exit-Punkt jedes Projekts.** Erstellt einen vollständigen Bericht der für jemanden nützlich ist, der das Projekt noch nie gesehen hat. Jeder Next Step muss konkret genug sein um sofort ausgeführt zu werden — ohne Rückfragen.
 
 **Read first:**
+- `references/plain-language.md` — Klartext-Pflicht (Status-Updates, Pre-Permission-Blocks, Pause-Blöcke)
 - `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap (zuerst lesen!)
 - `references/native-protocols.md` — Code Review Protocol + Quality Gate Checklist
 - `references/handoff-protocol.md`

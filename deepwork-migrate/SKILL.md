@@ -7,6 +7,8 @@ allowed-tools:
 
 # deepwork-migrate — Jetzt Teil von deepwork-entry-analyze
 
+**Lies zuerst:** `references/plain-language.md` — Klartext-Pflicht
+
 Diese Skill ist in `deepwork-entry-analyze` aufgegangen.
 
 `deepwork-entry-analyze` erkennt automatisch:

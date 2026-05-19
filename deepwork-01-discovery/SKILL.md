@@ -17,6 +17,7 @@ allowed-tools:
 **Part 2 of the deepwork suite.** This skill forces real thinking before building. It interviews, researches, stress-tests, and produces a plan that can survive contact with reality.
 
 **Read first:** All shared protocols live in `references/`. Read these before running the first ⚐ check:
+- `references/plain-language.md` — Klartext-Pflicht (Status-Updates, Pre-Permission-Blocks, Pause-Blöcke)
 - `DEEPWORK-CONFIG.md` — Vault-Pfad, Swarm-Limit, Cost-Cap (zuerst lesen!)
 - `references/native-protocols.md` — alle nativen Protokolle (Brainstorm, Spike, Verify, Debug, etc.)
 - `references/tool-awareness.md` — use at every ⚐ point
