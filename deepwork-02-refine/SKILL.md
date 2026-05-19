@@ -1,6 +1,6 @@
 ---
 name: deepwork-02-refine
-description: "**When: MUST — Run after deepwork-01-discovery. Turns the plan into executable sections with clear criteria.** Bridge between discovery and execution. Reads handoff.md + memory from deepwork-01, runs a clarifying interview when there are gaps, then does a deep discuss-phase-style walkthrough of how exactly each planned section will be implemented — tools, agents, swarms, tests, verification. If needed: new research to evaluate the implementation approach. Updates the plan, then produces an updated handoff.md ready for deepwork-03-execute. Use after deepwork-01-discovery, or whenever handoff.md exists and you need to turn a plan into an executable spec. Triggers: 'refine', 'discuss implementation', 'how do we build this', 'klären wie wir das umsetzen', '/deepwork-02', or when handoff.md exists with status 'GO'."
+description: "**When: MUST — Run after deepwork-01-discovery. Turns the plan into executable sections with clear criteria.** Bridge between discovery and execution for any project type — coding, research, content, design, media, marketing, analysis, concept, education, automation, legal, finance. Reads handoff.md + memory from deepwork-01, runs a clarifying interview when there are gaps, then does a deep discuss-phase-style walkthrough of how exactly each planned section will be implemented — tools, agents, swarms, tests, verification. If needed: new research to evaluate the implementation approach. Updates the plan, then produces an updated handoff.md ready for deepwork-03-execute. Use after deepwork-01-discovery, or whenever handoff.md exists and you need to turn a plan into an executable spec. Triggers: 'refine', 'discuss implementation', 'how do we build this', 'klären wie wir das umsetzen', '/deepwork-02', or when handoff.md exists with status 'GO'."
 allowed-tools:
   - Read
   - Write
@@ -29,6 +29,23 @@ allowed-tools:
 - `references/self-reflection.md` — controlling at every ⚐
 - `references/user-profile.md` — non-technical user assumption
 - `references/decision-levels.md` — 5-Stufen-Empfehlung für alle User-Entscheidungen
+- `references/project-profiles.md` — type-specific protocols, MCP routing, verification criteria, swarm sizing
+
+---
+
+## Projekttyp-Präambel ⚐
+
+Führe dies am Start jeder Session aus:
+
+1. `PROJECT.md` lesen (falls vorhanden unter `.deepwork/planning/PROJECT.md`)
+2. `project_type` Feld auslesen (z.B. `coding`, `design`, `content`, etc.)
+3. Falls nicht vorhanden: kurz fragen "Welcher Projekttyp? (coding/research/content/design/media/marketing/analysis/concept/education/automation/legal/finance)"
+4. `references/project-profiles.md` lesen — Profil für diesen Typ laden
+5. Profil-Einstellungen für diese Session übernehmen:
+   - Bevorzugte Protokolle für diesen Typ
+   - Bevorzugte MCPs (Routing-Reihenfolge)
+   - Verification-Kriterien für diesen Typ
+   - Swarm-Sizing-Empfehlung
 
 ---
 
@@ -70,9 +87,23 @@ For each section in the handoff.md execution plan, work through:
 - For **software:** What's the data flow? Which components? Which interfaces? Which libraries/frameworks?
 - For **non-technical:** What's the workflow? Who does what? What are the touch points? What's the output format?
 
-**Vertical Slice Check:** Ist diese Section ein vollständiger Feature-Slice (UI + Logik + Daten gemeinsam) oder eine horizontale Schicht (z.B. nur UI, nur Backend)? Horizontal-Schnitte können erst am Ende getestet werden — Vertical Slices ermöglichen frühes echtes Feedback. Falls die Section nur eine horizontale Schicht ist und das nicht explizit notwendig ist → prüfe ob ein Vertical Slice möglich wäre und empfehle diesen via AskUserQuestion.
+**Vertical Slice Check:** Ist diese Section ein vollständiger Feature-Slice (UI + Logik + Daten gemeinsam) oder eine horizontale Schicht (z.B. nur UI, nur Backend)? Horizontal-Schnitte können erst am Ende getestet werden — Vertical Slices ermöglichen frühes echtes Feedback. Falls die Section nur eine horizontale Schicht ist und das nicht explizit notwendig ist → prüfe ob ein Vertical Slice möglich wäre und empfehle diesen via AskUserQuestion. **Für non-coding Typen: prüfe ob jede Section ein vollständiges Ergebnis liefert, nicht nur eine Zuarbeit** (z.B. ein fertiges Kapitel, nicht nur Notizen dafür).
 
-**2.2 Tool routing** ⚐ (see `references/tool-awareness.md`):
+**Sections nach Projekttyp:**
+- coding: Sections = Features / Module / API-Endpoints / Layers
+- research: Sections = Themenbereiche / Quellen-Cluster / Synthese-Ebenen
+- content: Sections = Kapitel / Artikel / Abschnitte
+- design: Sections = Screens / Flows / Component-Gruppen
+- media: Sections = Szenen / Asset-Typen / Produktions-Phasen
+- marketing: Sections = Kampagnen-Teile / Copy-Formate / Kanäle
+- analysis: Sections = Datenbereiche / Fragestellungen / Report-Kapitel
+- concept: Sections = Konzept-Bereiche / Stakeholder-Gruppen / Roadmap-Phasen
+- education: Sections = Module / Lerneinheiten / Assessment-Blöcke
+- automation: Sections = Workflow-Schritte / Integration-Punkte / Test-Szenarien
+- legal: Sections = Vertrags-Teile / Compliance-Bereiche / Recherche-Felder
+- finance: Sections = Modell-Komponenten / Analyse-Bereiche / Report-Kapitel
+
+**2.2 Tool routing ⚐** (see `references/tool-awareness.md`):
 - Which skill, agent, swarm, or MCP is best for this section?
 - Braucht es TDD? → `references/native-protocols.md` → TDD Protocol
 - Braucht es Worktree-Isolation? → Agent tool mit `isolation: "worktree"` (für riskante Writes)

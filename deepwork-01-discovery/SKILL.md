@@ -1,6 +1,6 @@
 ---
 name: deepwork-01-discovery
-description: "**When: MUST — Run after deepwork-00-bootstrap. Research, plan, and GO/NO-GO verdict.** Deep discovery phase for any project — software, business, content, research, or anything else. Forces a structured deep interview (as many questions as needed), 4-step tellerrand research (broad scan → deep drill → contrary findings → alternative approaches), iterative re-interview loops when research changes the picture, hard realism check with real NO-GO rights, plan hardening via stress-test, full memory/vector persistence of everything, and produces a handoff.md + token log for a clean context transition. Use ALWAYS after deepwork-00-bootstrap, or directly when: 'discovery', 'konzept', 'deep dive', 'is this realistic', 'what should we build', 'tiefenrecherche', 'plan', '/deepwork-01'. Even without explicit request — trigger whenever a project needs proper exploration before building."
+description: "**When: MUST — Run after deepwork-00-bootstrap. Research, plan, and GO/NO-GO verdict.** Deep discovery phase for any project type — coding, research, content, design, media, marketing, analysis, concept, education, automation, legal, finance. Forces a structured deep interview (as many questions as needed), 4-step tellerrand research (broad scan → deep drill → contrary findings → alternative approaches), iterative re-interview loops when research changes the picture, hard realism check with real NO-GO rights, plan hardening via stress-test, full memory/vector persistence of everything, and produces a handoff.md + token log for a clean context transition. Use ALWAYS after deepwork-00-bootstrap, or directly when: 'discovery', 'konzept', 'deep dive', 'is this realistic', 'what should we build', 'tiefenrecherche', 'plan', '/deepwork-01'. Even without explicit request — trigger whenever a project needs proper exploration before building."
 allowed-tools:
   - Read
   - Write
@@ -32,6 +32,23 @@ allowed-tools:
 - `references/research-verification.md` — source verification protocol
 - `references/user-profile.md` — non-technical user assumption
 - `references/decision-levels.md` — 5-Stufen-Empfehlung für alle User-Entscheidungen
+- `references/project-profiles.md` — type-specific protocols, MCP routing, verification criteria, swarm sizing
+
+---
+
+## Projekttyp-Präambel ⚐
+
+Führe dies am Start jeder Session aus:
+
+1. `PROJECT.md` lesen (falls vorhanden unter `.deepwork/planning/PROJECT.md`)
+2. `project_type` Feld auslesen (z.B. `coding`, `design`, `content`, etc.)
+3. Falls nicht vorhanden: kurz fragen "Welcher Projekttyp? (coding/research/content/design/media/marketing/analysis/concept/education/automation/legal/finance)"
+4. `references/project-profiles.md` lesen — Profil für diesen Typ laden
+5. Profil-Einstellungen für diese Session übernehmen:
+   - Bevorzugte Protokolle für diesen Typ
+   - Bevorzugte MCPs (Routing-Reihenfolge)
+   - Verification-Kriterien für diesen Typ
+   - Swarm-Sizing-Empfehlung
 
 ---
 
@@ -110,6 +127,7 @@ Spawn **1 `general-purpose`-Agent pro vielversprechenden Lead** aus Broad Scan (
 - Library/Framework-Fragen → `mcp__context7__*` IMMER zuerst
 - Web-Recherche → exa → firecrawl → WebSearch (nie direkt zu WebSearch springen)
 - Code-Beispiele → GitHub MCP
+- **Projekttyp-spezifisches Routing:** Die bevorzugte MCP-Reihenfolge für den aktiven Projekttyp aus `references/project-profiles.md` überschreibt diese Standard-Reihenfolge wenn abweichend.
 
 Outputs → `.deepwork/outputs/research-deep-drill/`  
 Synthesis → `.deepwork/research/deep-drill.md`
@@ -149,7 +167,7 @@ Based on research findings, run targeted follow-up questions.
 - Assumption from Round A looks shaky → ask for clarification
 - Regulatory/competitive landscape changes the picture → confirm user knows
 
-**Non-technical translation ⚐** (see `references/user-profile.md`): Before each follow-up question, check if the research finding requires explanation in plain terms.
+**Non-technical translation ⚐** (see `references/user-profile.md`): Before each follow-up question, check if the research finding requires explanation in plain terms. Don't ask a technical question based on a technical finding without first explaining the finding to the user.
 
 **Max 2 re-interview rounds.** If questions keep multiplying, note as Open Issues and move on.
 
@@ -172,13 +190,14 @@ Write `.deepwork/PLAN.md`:
 
 ## Tellerrand Alternatives Not Chosen
 | Alternative | Why Not |
-|-------------|----------|
+|-------------|---------|
 
 ## Scope
 ### In
 ### Out
 
 ## Execution Sections
+<These become deepwork-03 execution units. Each must be independently executable.>
 | # | Section | Estimated effort | Key dependencies |
 |---|---------|-----------------|------------------|
 
@@ -194,7 +213,7 @@ Write `.deepwork/PLAN.md`:
 <Things not yet resolved — for re-interview or deepwork-02 discussion>
 ```
 
-**Self-reflection check ⚐:** Read the draft plan as if you were the user (non-technical). Does it solve the right problem? Is it the simplest approach that works?
+**Self-reflection check ⚐:** Read the draft plan as if you were the user (non-technical). Does it solve the right problem? Is it the simplest approach that works? Are there simpler alternatives you haven't presented?
 
 **Non-technical review ⚐** (see `references/user-profile.md` checklist): Run the Non-Technical User Checklist before presenting the plan.
 
@@ -204,9 +223,9 @@ Write `.deepwork/PLAN.md`:
 
 **Run in parallel:**
 
-**Stress-test:** Invoke `kreuzverhoer` — Run `Skill` tool → `kreuzverhoer` on `PLAN.md`. Challenge: Is the chosen approach actually the simplest? Are the effort estimates realistic? Are the assumptions verifiable or just wishful thinking? Is each section genuinely independent?
+**Stress-test:** Invoke `kreuzverhoer` — Run `Skill` tool → `kreuzverhoer` on `PLAN.md`. Challenge: Is the chosen approach actually the simplest? Are the effort estimates realistic? Are the assumptions verifiable or just wishful thinking? Is each section genuinely independent? Output → document findings in `.deepwork/decisions.md`. If `kreuzverhoer` is unavailable: go assumption-by-assumption and demand evidence or a spike to verify. Ask "what could go wrong?" for each section.
 
-**Counter-proposal:** Spawn 1 `Plan`-type Agent with prompt: "Given this project goal and constraints [paste from PLAN.md], write an alternative plan that makes different architectural or approach choices."
+**Counter-proposal:** Spawn 1 `Plan`-type Agent with prompt: "Given this project goal and constraints [paste from PLAN.md], write an alternative plan that makes different architectural or approach choices. Be genuinely different, not just different wording." Review the counter-proposal and incorporate anything better.
 
 **Reality check:** Apply effort ×2 multiplier. Does the plan still fit within constraints? Adjust scope if not.
 
@@ -218,9 +237,18 @@ Hardening findings → `.deepwork/decisions.md` and updated `PLAN.md`.
 
 **Read:** `references/verdict-rubric.md` for the full scoring rubric.
 
+**Projekttyp-spezifische Verification-Kriterien:** Lese die Verification-Kriterien für den aktiven Projekttyp aus `references/project-profiles.md`. Die Verdict-Dimensionen und Schwellwerte können je nach Typ variieren — ein `legal`-Projekt hat andere GO-Kriterien als ein `coding`-Projekt.
+
 Score all 6 dimensions. Apply verdict logic. Write `.deepwork/VERDICT.md`.
 
-**Present verdict to user via `AskUserQuestion`.**
+**Present verdict to user via `AskUserQuestion`:**
+- Summary of verdict + key reasoning
+- Options: Accept | Challenge a specific dimension | Adjust scope | Abort
+
+**On challenge:** revisit that dimension, adjust score, re-verdict.  
+**On scope adjustment:** loop back to Step 4 with new constraints.  
+**On NO-GO:** skill stops here. Block output explains what would need to change.  
+**On GO or GO-WITH-CUTS:** proceed to Step 7.
 
 **NO-GO is not failure. It's the skill working.**
 
@@ -228,11 +256,11 @@ Score all 6 dimensions. Apply verdict logic. Write `.deepwork/VERDICT.md`.
 
 ## Step 7 — Handoff + Token Log + Memory Snapshot + Clear ⚐
 
-**1. Write `./handoff.md`** following `references/handoff-protocol.md` exactly.
+**1. Write `./handoff.md`** following `references/handoff-protocol.md` exactly. Every section of the schema must be filled. Run the cold-start test mentally: "could a new session work from this alone?"
 
-**2. Token log:** Follow `references/token-log-protocol.md`. Write to `.deepwork/cost-log.md`.
+**2. Token log:** Follow `references/token-log-protocol.md`. Write to `.deepwork/cost-log.md`. Cover this entire session — all agents, MCPs, and direct tool calls.
 
-**3. Memory snapshot:** Final sync of journal + decisions.md.
+**3. Memory snapshot:** Final sync of journal + decisions.md. If Ruflo available: flush pending memory writes, run `agentdb_session-end` if available.
 
 **4. Update cost-summary.md** with Phase 01 aggregate.
 
@@ -254,4 +282,24 @@ Wie es weitergeht:
 ═══════════════════════════════════════════
 ```
 
-**6. Obsidian sync:** If vault is configured, sync `PLAN.md`, `VERDICT.md`, `handoff.md`, `decisions.md` to vault.
+**6. Obsidian sync:** If vault is configured, sync `PLAN.md`, `VERDICT.md`, `handoff.md`, `decisions.md` to vault. See `references/tool-awareness.md`.
+
+---
+
+**Output nach Step 7:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WAS JETZT?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nach /clear:  /deepwork-02-refine  (Plan → ausführbare Schritte)
+
+Wenn du Pause machst und später wiederkommst:
+  Tippe einfach /deepwork-02-refine — der Skill liest handoff.md
+  und weiß genau wo du aufgehört hast.
+
+Wenn das Verdikt NO-GO war:
+  Diskutiere den Scope mit dem User, dann /deepwork-01-discovery erneut
+  mit angepasstem Fokus.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
