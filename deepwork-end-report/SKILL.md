@@ -1,6 +1,6 @@
 ---
 name: deepwork-end-report
-description: "**When: SHOULD — Run after all sections in handoff.md are 'done', or after deepwork-alt-autopilot completes.** Final project report for any completed deepwork project. Reads handoff.md + all .deepwork/ artifacts, produces a comprehensive end-report with: what was built, what was decided, what was learned, what still works / what doesn't, and detailed next-step instructions with enough specifics that someone new could immediately continue. Use after deepwork-03 or deepwork-alt-autopilot complete, or any time a project-phase is done and needs a comprehensive summary. Triggers: 'abschlussbericht', 'final report', 'project done', 'was haben wir gebaut', 'next steps', '/deepwork-end-report', or when all handoff.md sections are 'done'."
+description: "**When: SHOULD — Run after all sections in handoff.md are 'done', or after deepwork-alt-autopilot completes.** Final project report for any completed deepwork project. Reads handoff.md + all .deepwork/ artifacts, produces a comprehensive end-report with: what was built, what was decided, what was learned, what still works / what doesn't, and detailed next-step instructions with enough specifics that someone new could immediately continue. Use after deepwork-03 or deepwork-alt-autopilot complete, or any time a project-phase is done and needs a comprehensive summary. Triggers: 'abschlussbericht', 'final report', 'project done', 'was haben wir gebaut', 'next steps', '/deepwork-end-report', or when all handoff.md sections are 'done'. Supports all 12 project types — report structure adapts automatically: coding (test coverage, architecture decisions, technical debt), research (source quality, confidence levels), content (publication checklist, SEO summary), design (design system inventory, accessibility score, handoff completeness), media, marketing, analysis, concept, education, automation, legal, finance (see project-profiles.md for full type-specific report sections)."
 allowed-tools:
   - Read
   - Write
@@ -23,6 +23,17 @@ allowed-tools:
 - `references/model-selection.md`
 - `references/self-reflection.md` — final controlling check
 - `references/user-profile.md` — non-technical translation of all outputs
+- `references/project-profiles.md` — Projekttyp-Profile (für typ-spezifische Report-Sektionen)
+
+## Projekttyp-Präambel ⚐
+
+Am Start jeder Session:
+
+1. `PROJECT.md` lesen (`.deepwork/planning/PROJECT.md`)
+2. `project_type` auslesen (coding | research | content | design | media | marketing | analysis | concept | education | automation | legal | finance)
+3. Falls nicht vorhanden: kurz fragen welcher Typ
+4. `references/project-profiles.md` — Profil für diesen Typ laden
+5. Profil-Einstellungen übernehmen: bevorzugte Protokolle, MCPs, Verification-Kriterien, Swarm-Sizing
 
 ---
 
@@ -110,6 +121,23 @@ Most expensive phase: <phase name> (~$<X>)
 
 ## Open Issues (Not Resolved)
 <From handoff.md ## Open Issues — what was left unresolved and why>
+
+## Typ-spezifische Sektionen
+<Basierend auf project_type — Inhalt aus references/project-profiles.md laden>
+
+Beispiele je Typ:
+- **coding**: Test Coverage (%), Architecture Decisions, Known Technical Debt
+- **content**: Publication Checklist, Style Guide Adherence, SEO Summary
+- **design**: Design System Inventory, Handoff Completeness, Accessibility Score
+- **research**: Source Quality Assessment, Confidence Levels per Finding
+- **media**: Asset Inventory, Production Notes, Distribution Checklist
+- **marketing**: Campaign Performance Metrics, Copy Review Status, Channel Readiness
+- **analysis**: Data Quality Assessment, Methodology Notes, Confidence Intervals
+- **concept**: Pitch Readiness, Stakeholder Sign-Off Status, Roadmap Maturity
+- **education**: Learning Outcome Coverage, Exercise Completeness, Assessment Readiness
+- **automation**: Integration Test Results, Trigger Coverage, Error Handling Status
+- **legal**: Document Completeness, Review Status, Compliance Checklist
+- **finance**: Model Accuracy, Assumption Sensitivity, Data Source Credibility
 ```
 
 ---
@@ -186,7 +214,7 @@ Key files to read first: `./handoff.md`, `./NEXT-STEPS.md`, `.deepwork/decisions
 
 Things the user should learn or get help with to maintain and grow this project:
 | Topic | Why It Matters | Resource to Start With |
-|-------|---------------|----------------------|
+|-------|---------------|------------------------|
 | <technical topic user wasn't familiar with> | <impact on their project> | <specific resource, not just "google it"> |
 
 ---

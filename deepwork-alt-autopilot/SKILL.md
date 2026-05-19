@@ -1,6 +1,6 @@
 ---
 name: deepwork-alt-autopilot
-description: "**When: CAN — Alternative to deepwork-03-execute when you want fully autonomous multi-section execution without /clear sync points.** End-to-end autopilot for the complete deepwork suite. Runs bootstrap → discovery → refine → execute autonomously in one continuous session, pausing ONLY for: the initial mega-interview, NO-GO verdicts, killer risks, cost cap, outside-contract decisions, or repeated verification failures. Everything that would normally require user input is resolved upfront via the mega-interview and written into an AUTOPILOT-CONTRACT.md. No /clear between sections — the autopilot maintains context across sections via handoff.md + memory. Use when: 'autopilot', 'mach alles', 'run it all', 'ohne mich', 'von vorne bis hinten', 'ohne input von mir', '/deepwork-alt-autopilot'. This is the hands-off mode — deepwork-00 through 03 but fully automated with a single upfront setup session."
+description: "**When: CAN — Alternative to deepwork-03-execute when you want fully autonomous multi-section execution without /clear sync points.** End-to-end autopilot for the complete deepwork suite. Runs bootstrap → discovery → refine → execute autonomously in one continuous session, pausing ONLY for: the initial mega-interview, NO-GO verdicts, killer risks, cost cap, outside-contract decisions, or repeated verification failures. Everything that would normally require user input is resolved upfront via the mega-interview and written into an AUTOPILOT-CONTRACT.md. No /clear between sections — the autopilot maintains context across sections via handoff.md + memory. Use when: 'autopilot', 'mach alles', 'run it all', 'ohne mich', 'von vorne bis hinten', 'ohne input von mir', '/deepwork-alt-autopilot'. This is the hands-off mode — deepwork-00 through 03 but fully automated with a single upfront setup session. Typ-bewusst: wählt automatisch die richtigen Protokolle und Swarm-Strategien basierend auf dem Projekttyp (coding, design, content, media, marketing, analysis, concept, education, automation, legal, finance, research)"
 allowed-tools:
   - Read
   - Write
@@ -35,6 +35,17 @@ allowed-tools:
 - `references/research-verification.md` — source verification in research phase
 - `references/user-profile.md` — non-technical user in mega-interview
 - `references/decision-levels.md` — 5-Stufen-Empfehlung für alle User-Entscheidungen
+- `references/project-profiles.md` — Projekttyp-Profile (Protokolle, MCPs, Verification-Kriterien, Swarm-Sizing)
+
+## Projekttyp-Präambel ⚐
+
+Am Start jeder Session:
+
+1. `PROJECT.md` lesen (`.deepwork/planning/PROJECT.md`)
+2. `project_type` auslesen (coding | research | content | design | media | marketing | analysis | concept | education | automation | legal | finance)
+3. Falls nicht vorhanden: kurz fragen welcher Typ
+4. `references/project-profiles.md` — Profil für diesen Typ laden
+5. Profil-Einstellungen übernehmen: bevorzugte Protokolle, MCPs, Verification-Kriterien, Swarm-Sizing
 
 ---
 
@@ -70,6 +81,17 @@ Read `references/contract-template.md` to understand what needs to be filled.
 - Beyond the 8 default always-pause triggers (see contract-template.md ## Always-Pause Triggers), what else must pause?
 - Push notifications desired?
 
+**Round G — Projekttyp & Profil**
+- Welcher Typ? (12 Optionen aus `references/project-profiles.md`: coding | research | content | design | media | marketing | analysis | concept | education | automation | legal | finance)
+- Zweit-Typ falls Mischprojekt?
+- Auto-Discovery erlaubt? (Soll Suite neue Tools empfehlen wenn sie Lücken findet?)
+→ Schreibe in AUTOPILOT-CONTRACT.md:
+  ```yaml
+  project_type: <typ>
+  project_type_secondary: <typ2 | none>
+  auto_discovery_enabled: <true|false>
+  ```
+
 **Round F — Autopilot Auto-Permissions**
 Explain each permission in plain language before asking. Default for all is `true` (autopilot is the hands-off mode — these defaults exist so it can actually run without stopping). User can set any to `false` to get a pause for that specific action.
 
@@ -99,6 +121,15 @@ Mein Tipp für diese Situation: Option <N> — <konkreter Grund warum>
 ```
 
 Schreibe die gewählte Stufe (1–5) ins AUTOPILOT-CONTRACT.md als `research_depth`.
+
+**Contract template fields (add to AUTOPILOT-CONTRACT.md):**
+```yaml
+project_type: <typ>
+project_type_secondary: <typ2 | none>
+auto_discovery_enabled: true
+```
+
+**Protokoll-Stack:** wird aus `references/project-profiles.md` für den gewählten Typ geladen — nicht hardcoded.
 
 Output: `.deepwork/AUTOPILOT-CONTRACT.md` (using template from `references/contract-template.md`)
 
@@ -167,7 +198,7 @@ Execute the discovery logic without the user interview (contract already answere
 
 **Hardening:** Run kreuzverhoer + counter-proposal Agent in parallel.
 
-**Verdict:**
+**Verdict:** 
 - GO → continue
 - GO-WITH-CUTS → apply scope cuts per contract `## Cut if needed` list → continue
 - **NO-GO → ALWAYS PAUSE** — this is a hard stop. User decides.

@@ -1,6 +1,6 @@
 ---
 name: deepwork-entry-analyze
-description: "**When: MUST — Alternative entry point to deepwork-00-bootstrap for projects that already exist and were NOT set up with deepwork.** Bestandsaufnahme und Analyse eines bestehenden Projekts, das NICHT mit deepwork aufgesetzt wurde. Führt eine strukturierte Analyse durch: Codebase-Scan, Architektur-Mapping, Qualitäts-Check, offene Fragen identifizieren — und baut dann die deepwork-Struktur (handoff.md, .deepwork/) rückwirkend auf, damit alle anderen deepwork-Skills funktionieren. Trigger: 'analysiere dieses projekt', 'bestandsaufnahme', 'wie ist der stand', 'ich habe ein bestehendes projekt', 'deepwork für bestehendes projekt', '/deepwork-entry-analyze'. Auch triggern: wenn jemand fragen stellt die sich auf ein laufendes Projekt beziehen, ohne deepwork-Struktur sichtbar zu sein."
+description: "**When: MUST — Alternative entry point to deepwork-00-bootstrap for projects that already exist and were NOT set up with deepwork.** Bestandsaufnahme und Analyse eines bestehenden Projekts, das NICHT mit deepwork aufgesetzt wurde. Führt eine strukturierte Analyse durch: Codebase-Scan, Architektur-Mapping, Qualitäts-Check, offene Fragen identifizieren — und baut dann die deepwork-Struktur (handoff.md, .deepwork/) rückwirkend auf, damit alle anderen deepwork-Skills funktionieren. Erkennt automatisch den Projekttyp (coding, research, content, design, media, marketing, analysis, concept, education, automation, legal, finance) und legt typ-spezifische Ordnerstrukturen an. Trigger: 'analysiere dieses projekt', 'bestandsaufnahme', 'wie ist der stand', 'ich habe ein bestehendes projekt', 'deepwork für bestehendes projekt', '/deepwork-entry-analyze'. Auch triggern: wenn jemand fragen stellt die sich auf ein laufendes Projekt beziehen, ohne deepwork-Struktur sichtbar zu sein."
 allowed-tools:
   - Read
   - Write
@@ -25,6 +25,19 @@ allowed-tools:
 - `references/tool-awareness.md`
 - `references/self-reflection.md` — controlling during analysis
 - `references/user-profile.md` — non-technical user assumption
+- `references/project-profiles.md` — Projekttyp-Profile (für Typ-Erkennung und typ-spezifische Ordnerstrukturen)
+
+## Projekttyp-Präambel ⚐
+
+Am Start jeder Session:
+
+1. `PROJECT.md` lesen (`.deepwork/planning/PROJECT.md`)
+2. `project_type` auslesen (coding | research | content | design | media | marketing | analysis | concept | education | automation | legal | finance)
+3. Falls nicht vorhanden: kurz fragen welcher Typ
+4. `references/project-profiles.md` — Profil für diesen Typ laden
+5. Profil-Einstellungen übernehmen: bevorzugte Protokolle, MCPs, Verification-Kriterien, Swarm-Sizing
+
+Hinweis: Dieser Skill muss den Projekttyp ggf. SELBST ERKENNEN falls nicht gesetzt — siehe Step 0b.
 
 ---
 
@@ -64,11 +77,31 @@ Soll ich das durchführen? (ja / nein / was ist das genau?)
 ```
 Nach Bestätigung: additiv ergänzen, nichts löschen → danach leichte Analyse (nur Gap-Check, kein voller 3-Agent Codebase-Scan). Weiter mit Step 1 (Interview) statt vollständigem Scan.
 
+**Typ-spezifische Ordner prüfen (Migrate-Modus):** Nach dem Struktur-Fix prüfen ob die für den Projekttyp empfohlenen Ordner vorhanden sind:
+- `coding` → `src/`, `tests/`, `docs/`
+- `design` → `wireframes/`, `mockups/`, `assets/`, `design-system/`
+- `content` → `drafts/`, `published/`, `assets/`
+- `research` → `sources/`, `notes/`, `literature/`
+- `media` → `assets/`, `scripts/`, `exports/`
+- `analysis` → `data/`, `notebooks/`, `outputs/`
+- (Vollständige Liste in `references/project-profiles.md`)
+Falls Ordner fehlen: in Migrationsplan aufnehmen und mit anlegen.
+
 **Wenn Vollanalyse-Modus:** Weiter mit Step 0b.
 
 ---
 
 ## Step 0b — Projekt-Scan (Vollanalyse-Modus) ⚐
+
+**Projekttyp-Erkennung:** Falls `project_type` in PROJECT.md fehlt oder PROJECT.md noch nicht existiert:
+- Code-Dateien dominant (`.js`, `.ts`, `.py`, `.go`, `.rs`, etc.) → `coding`
+- Text-/Markdown-Dateien dominant, kein Code → `content`
+- Design-Assets (`.fig`, `wireframes/`, `mockups/`, design tokens) → `design`
+- Jupyter Notebooks, Daten-CSVs, Analyse-Skripte → `analysis`
+- Medien-Assets dominant (`.mp4`, `.mp3`, `assets/`, `media/`) → `media`
+- Recherche-Dokumente, Quellen-Ordner, Literatur → `research`
+- Falls unklar: kurz fragen (1 Klick aus 12 Typen)
+→ Erkannten Typ in PROJECT.md als `project_type` nachtragen.
 
 **Tool inventory:** Welche Skills, MCPs, Plugins sind verfügbar? Schreibe `.deepwork/tool-inventory.md` (Format aus deepwork-00).
 
@@ -151,7 +184,7 @@ Datum: <ISO-8601>
 
 ## Codebase-Zustand
 | Bereich | Status | Details |
-|---------|--------|----------|
+|---------|--------|---------|
 | Tests | Vorhanden / Unvollständig / Fehlen | <coverage, typen> |
 | Dokumentation | Vorhanden / Veraltet / Fehlt | <was fehlt> |
 | Fehlerbehandlung | Robust / Lückenhaft | <spezifische Probleme> |
