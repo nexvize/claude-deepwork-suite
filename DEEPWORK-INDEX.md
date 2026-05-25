@@ -187,7 +187,7 @@ Ausführen: `/deepwork-env-setup` (vollständig) oder `/deepwork-quick` → Auto
 
 Alle Pfade und Limits: `DEEPWORK-CONFIG.md`
 
-- `DEEPWORK_VAULT_PATH` = `D:\Claude\ObsidianVault\`
+- `DEEPWORK_VAULT_PATH` = `F:\Claude\ObsidianVault\`
 - `DEEPWORK_SWARM_MAX_WORKERS` = 100
 - `DEEPWORK_DEFAULT_COST_CAP_USD` = $5.00
 

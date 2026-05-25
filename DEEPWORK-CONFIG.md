@@ -15,12 +15,12 @@ Format: `DEEPWORK_<KEY> = <value>`
 ## Konfiguration
 
 ```
-DEEPWORK_VAULT_PATH = D:\Claude\ObsidianVault
-DEEPWORK_PROJECTS_PATH = D:\Claude\Projekte
-DEEPWORK_SKILLS_PATH = C:\Users\Paul\.claude\skills
+DEEPWORK_VAULT_PATH = F:\Claude\ObsidianVault
+DEEPWORK_PROJECTS_PATH = F:\Claude\Projekte
+DEEPWORK_SKILLS_PATH = C:\Users\WorkStation\.claude\skills
 DEEPWORK_SWARM_MAX_WORKERS = 100
 DEEPWORK_DEFAULT_COST_CAP_USD = 5.00
-DEEPWORK_ENVIRONMENT_FILE = C:\Users\Paul\.claude\ENVIRONMENT.md
+DEEPWORK_ENVIRONMENT_FILE = C:\Users\WorkStation\.claude\ENVIRONMENT.md
 ```
 
 ---
